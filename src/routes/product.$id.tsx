@@ -150,7 +150,10 @@ export const Route = createFileRoute("/product/$id")({
 });
 
 function ProductPage() {
-  const { product, related } = Route.useLoaderData();
+  const { product, related } = Route.useLoaderData() as {
+    product: Product;
+    related: Product[];
+  };
   const navigate = useNavigate();
 
   const [qty, setQty] = useState(1);
