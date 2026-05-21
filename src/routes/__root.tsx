@@ -10,6 +10,10 @@ import {
 
 import appCss from "../styles.css?url";
 import { Toaster } from "@/components/ui/sonner";
+import { StoreProvider, useStore } from "@/lib/store";
+import { products } from "@/components/uchi/data";
+import { SidePanel, CartBody, WishBody, SearchBody, AccountBody, ProductModal } from "@/components/uchi/Drawers";
+import { toast } from "sonner";
 
 function NotFoundComponent() {
   return (
@@ -87,6 +91,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
+      {
+        rel: "icon",
+        type: "image/svg+xml",
+        href: "/favicon.svg",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -109,13 +118,59 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+function GlobalUI() {
+  const {
+    cart, wish,
+    cartOpen, wishOpen, searchOpen, accountOpen, modalProduct,
+    addToCart, removeFromCart, setCartQty, toggleWish,
+    setCartOpen, setWishOpen, setSearchOpen, setAccountOpen, setModalProduct,
+  } = useStore();
+
+  const cartCount = cart.reduce((s, i) => s + i.qty, 0);
+  const wishedProducts = products.filter((p) => wish.includes(p.id));
+
+  return (
+    <>
+      <SidePanel open={cartOpen} title={`Cart (${cartCount})`} onClose={() => setCartOpen(false)}>
+        <CartBody
+          items={cart}
+          setQty={setCartQty}
+          remove={removeFromCart}
+          onCheckout={() => { setCartOpen(false); toast.success("Checkout opened — payment coming soon"); }}
+        />
+      </SidePanel>
+      <SidePanel open={wishOpen} title="Wishlist" onClose={() => setWishOpen(false)}>
+        <WishBody
+          items={wishedProducts}
+          remove={(id) => { toggleWish(id); toast("Removed from wishlist"); }}
+          add={(p) => { addToCart(p); setWishOpen(false); toast.success(`${p.name} added to cart`); }}
+        />
+      </SidePanel>
+      <SidePanel open={searchOpen} title="Search" onClose={() => setSearchOpen(false)}>
+        <SearchBody onSelect={(p) => { setSearchOpen(false); setModalProduct(p); }} />
+      </SidePanel>
+      <SidePanel open={accountOpen} title="Account" onClose={() => setAccountOpen(false)}>
+        <AccountBody onClose={() => setAccountOpen(false)} />
+      </SidePanel>
+      <ProductModal
+        product={modalProduct}
+        onClose={() => setModalProduct(null)}
+        onAdd={(p, qty) => { addToCart(p, qty); toast.success(`${p.name} added to cart`); setCartOpen(true); }}
+      />
+    </>
+  );
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
-      <Toaster />
+      <StoreProvider>
+        <Outlet />
+        <GlobalUI />
+        <Toaster />
+      </StoreProvider>
     </QueryClientProvider>
   );
 }

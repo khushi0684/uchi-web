@@ -18,7 +18,7 @@ export const Route = createFileRoute("/about")({
 function AboutPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Nav cartCount={0} wishCount={0} onCartClick={() => {}} onWishClick={() => {}} onSearchClick={() => {}} onAccountClick={() => {}} />
+      <Nav />
 
       <section className="relative pt-32 pb-20 bg-cream">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">

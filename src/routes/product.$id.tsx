@@ -15,17 +15,12 @@ import { toast } from "sonner";
 import { Nav } from "@/components/uchi/Nav";
 import { ProductCard } from "@/components/uchi/ProductCard";
 import {
-  CartBody,
-  SidePanel,
-  WishBody,
-  type CartItem,
-} from "@/components/uchi/Drawers";
-import {
   getProductById,
   getRelatedProducts,
   inr,
   type Product,
 } from "@/components/uchi/data";
+import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/product/$id")({
   loader: ({ params }) => {
@@ -136,7 +131,7 @@ export const Route = createFileRoute("/product/$id")({
   component: ProductPage,
   notFoundComponent: () => (
     <div className="min-h-screen bg-background text-foreground">
-      <Nav cartCount={0} wishCount={0} onCartClick={() => {}} onWishClick={() => {}} onSearchClick={() => {}} onAccountClick={() => {}} />
+      <Nav />
       <div className="pt-40 pb-32 text-center px-6">
         <p className="text-[10px] tracking-[0.35em] uppercase text-clay">404</p>
         <h1 className="mt-4 font-serif text-5xl">Product not found</h1>
@@ -155,14 +150,11 @@ function ProductPage() {
     related: Product[];
   };
   const navigate = useNavigate();
+  const { addToCart, wish, toggleWish, setCartOpen, setWishOpen } = useStore();
+  const wished = wish.includes(product.id);
 
   const [qty, setQty] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
-  const [wished, setWished] = useState(false);
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [wishItems, setWishItems] = useState<Product[]>([]);
-  const [cartOpen, setCartOpen] = useState(false);
-  const [wishOpen, setWishOpen] = useState(false);
 
   const gallery = useMemo(
     () =>
@@ -180,52 +172,27 @@ function ProductPage() {
         )
       : 0;
 
-  const cartCount = cart.reduce((s, i) => s + i.qty, 0);
-
   const handleAdd = () => {
-    setCart((c) => {
-      const i = c.findIndex((x) => x.product.id === product.id);
-      if (i >= 0) {
-        const copy = [...c];
-        copy[i] = { ...copy[i], qty: copy[i].qty + qty };
-        return copy;
-      }
-      return [...c, { product, qty }];
-    });
+    addToCart(product, qty);
     toast.success(`${product.name} added to cart`);
     setCartOpen(true);
   };
 
   const handleBuyNow = () => {
-    handleAdd();
-    toast("Heading to checkout…");
+    addToCart(product, qty);
+    toast.success(`${product.name} added to cart`);
   };
 
-  const toggleWish = () => {
-    setWished((w) => {
-      const next = !w;
-      toast(next ? "Saved to wishlist" : "Removed from wishlist");
-      setWishItems((items) =>
-        next
-          ? items.find((i) => i.id === product.id)
-            ? items
-            : [...items, product]
-          : items.filter((i) => i.id !== product.id)
-      );
-      return next;
-    });
+  const handleWish = () => {
+    const isWished = wish.includes(product.id);
+    toggleWish(product.id);
+    toast(isWished ? "Removed from wishlist" : "Saved to wishlist");
+    if (!isWished) setWishOpen(true);
   };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Nav
-        cartCount={cartCount}
-        wishCount={wishItems.length}
-        onCartClick={() => setCartOpen(true)}
-        onWishClick={() => setWishOpen(true)}
-        onSearchClick={() => navigate({ to: "/products" })}
-        onAccountClick={() => toast("Account coming soon")}
-      />
+      <Nav />
 
       {/* Breadcrumbs */}
       <nav aria-label="Breadcrumb" className="pt-28 lg:pt-32">
@@ -381,7 +348,7 @@ function ProductPage() {
                 Buy Now
               </button>
               <button
-                onClick={toggleWish}
+                onClick={handleWish}
                 aria-pressed={wished}
                 aria-label="Add to wishlist"
                 className={`w-12 h-12 rounded-full grid place-items-center border transition ${
@@ -507,9 +474,9 @@ function ProductPage() {
                 <ProductCard
                   key={p.id}
                   product={p}
-                  wished={false}
-                  onAdd={() => toast.success(`${p.name} added to cart`)}
-                  onWish={() => toast("Saved to wishlist")}
+                  wished={wish.includes(p.id)}
+                  onAdd={(p) => { addToCart(p); toast.success(`${p.name} added to cart`); setCartOpen(true); }}
+                  onWish={(id) => { const ex = wish.includes(id); toggleWish(id); toast(ex ? "Removed from wishlist" : "Saved to wishlist"); }}
                   onOpen={() => navigate({ to: "/product/$id", params: { id: p.id } })}
                 />
               ))}
@@ -531,33 +498,6 @@ function ProductPage() {
         </div>
       </footer>
 
-      <SidePanel open={cartOpen} title={`Cart (${cartCount})`} onClose={() => setCartOpen(false)}>
-        <CartBody
-          items={cart}
-          setQty={(id, q) =>
-            setCart((c) => c.map((x) => (x.product.id === id ? { ...x, qty: q } : x)))
-          }
-          remove={(id) => setCart((c) => c.filter((x) => x.product.id !== id))}
-          onCheckout={() => {
-            setCartOpen(false);
-            toast.success("Checkout opened — payment coming soon");
-          }}
-        />
-      </SidePanel>
-      <SidePanel open={wishOpen} title="Wishlist" onClose={() => setWishOpen(false)}>
-        <WishBody
-          items={wishItems}
-          remove={(id) => {
-            setWishItems((items) => items.filter((i) => i.id !== id));
-            if (id === product.id) setWished(false);
-          }}
-          add={(p) => {
-            setCart((c) => [...c, { product: p, qty: 1 }]);
-            setWishOpen(false);
-            toast.success(`${p.name} added to cart`);
-          }}
-        />
-      </SidePanel>
     </div>
   );
 }

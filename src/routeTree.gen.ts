@@ -19,6 +19,7 @@ import { Route as JournalRouteImport } from './routes/journal'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as CareGuideRouteImport } from './routes/care-guide'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -74,6 +75,11 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CollectionsRoute = CollectionsRouteImport.update({
+  id: '/collections',
+  path: '/collections',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CareGuideRoute = CareGuideRouteImport.update({
   id: '/care-guide',
   path: '/care-guide',
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/care-guide': typeof CareGuideRoute
+  '/collections': typeof CollectionsRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
   '/faqs': typeof FaqsRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/care-guide': typeof CareGuideRoute
+  '/collections': typeof CollectionsRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
   '/faqs': typeof FaqsRoute
@@ -132,6 +140,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/care-guide': typeof CareGuideRoute
+  '/collections': typeof CollectionsRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
   '/faqs': typeof FaqsRoute
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/care-guide'
+    | '/collections'
     | '/contact'
     | '/cookies'
     | '/faqs'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/care-guide'
+    | '/collections'
     | '/contact'
     | '/cookies'
     | '/faqs'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/care-guide'
+    | '/collections'
     | '/contact'
     | '/cookies'
     | '/faqs'
@@ -199,6 +211,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CareGuideRoute: typeof CareGuideRoute
+  CollectionsRoute: typeof CollectionsRoute
   ContactRoute: typeof ContactRoute
   CookiesRoute: typeof CookiesRoute
   FaqsRoute: typeof FaqsRoute
@@ -284,6 +297,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/collections': {
+      id: '/collections'
+      path: '/collections'
+      fullPath: '/collections'
+      preLoaderRoute: typeof CollectionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/care-guide': {
       id: '/care-guide'
       path: '/care-guide'
@@ -319,6 +339,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CareGuideRoute: CareGuideRoute,
+  CollectionsRoute: CollectionsRoute,
   ContactRoute: ContactRoute,
   CookiesRoute: CookiesRoute,
   FaqsRoute: FaqsRoute,

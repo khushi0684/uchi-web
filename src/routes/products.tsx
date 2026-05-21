@@ -2,8 +2,9 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/uchi/Nav";
 import { ProductCard } from "@/components/uchi/ProductCard";
 import { products } from "@/components/uchi/data";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { toast } from "sonner";
+import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/products")({
   head: () => ({
@@ -23,26 +24,18 @@ type Cat = (typeof categories)[number];
 function ProductsPage() {
   const [cat, setCat] = useState<Cat>("All");
   const [sort, setSort] = useState<"featured" | "low" | "high">("featured");
-  const [wish, setWish] = useState<string[]>([]);
+  const { addToCart, wish, toggleWish, setModalProduct, setCartOpen } = useStore();
 
-  const filtered = (() => {
+  const filtered = useMemo(() => {
     let list = cat === "All" ? products : products.filter((p) => p.category === cat);
     if (sort === "low") list = [...list].sort((a, b) => a.price - b.price);
     if (sort === "high") list = [...list].sort((a, b) => b.price - a.price);
     return list;
-  })();
-
-  const toggleWish = (id: string) => {
-    setWish((w) => {
-      const exists = w.includes(id);
-      toast(exists ? "Removed from wishlist" : "Saved to wishlist");
-      return exists ? w.filter((x) => x !== id) : [...w, id];
-    });
-  };
+  }, [cat, sort]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Nav cartCount={0} wishCount={wish.length} onCartClick={() => toast("Cart is available on the home page")} onWishClick={() => toast("Wishlist is available on the home page")} onSearchClick={() => toast("Search is available on the home page")} onAccountClick={() => toast("Account is available on the home page")} />
+      <Nav />
 
       <section className="pt-32 pb-20 bg-cream">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 text-center">
@@ -56,15 +49,17 @@ function ProductsPage() {
 
       <section className="py-20 lg:py-28 bg-background">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
             <div className="flex flex-wrap gap-2">
               {categories.map((c) => (
                 <button
                   key={c}
                   onClick={() => setCat(c)}
-                  className={`px-4 py-2 rounded-full text-sm border transition-all duration-300 ${
-                    cat === c ? "bg-bark text-ivory border-bark" : "border-border text-muted-foreground hover:border-bark hover:text-foreground"
-                  }`}
+                  className={`px-4 py-2.5 rounded-full text-sm font-medium border transition-all duration-300 ${
+                    cat === c
+                      ? "bg-bark text-ivory border-bark shadow-md"
+                      : "border-border text-muted-foreground hover:border-bark hover:text-foreground hover:bg-sand/30"
+                  } active:scale-95`}
                 >
                   {c}
                 </button>
@@ -73,13 +68,14 @@ function ProductsPage() {
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as typeof sort)}
-              className="rounded-full border border-border bg-card px-4 py-2 text-sm"
+              className="rounded-full border border-border bg-card px-4 py-2.5 text-sm font-medium transition-all hover:border-bark focus:border-clay focus:ring-2 focus:ring-clay/20"
             >
               <option value="featured">Featured</option>
               <option value="low">Price: Low to High</option>
               <option value="high">Price: High to Low</option>
             </select>
           </div>
+          <p className="text-xs text-muted-foreground uppercase tracking-wide">{filtered.length} results</p>
 
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {filtered.map((p) => (
@@ -87,9 +83,13 @@ function ProductsPage() {
                 key={p.id}
                 product={p}
                 wished={wish.includes(p.id)}
-                onAdd={() => toast.success(`${p.name} added to cart`)}
-                onWish={toggleWish}
-                onOpen={() => toast(`${p.name} — quick view coming soon`)}
+                onAdd={(p) => { addToCart(p); toast.success(`${p.name} added to cart`); setCartOpen(true); }}
+                onWish={(id) => {
+                  const exists = wish.includes(id);
+                  toggleWish(id);
+                  toast(exists ? "Removed from wishlist" : "Saved to wishlist");
+                }}
+                onOpen={(p) => setModalProduct(p)}
               />
             ))}
           </div>

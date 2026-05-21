@@ -163,4 +163,62 @@
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
   }
+
+  /* ── Scroll-reveal via IntersectionObserver ── */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+  }
+  [data-reveal].revealed { opacity: 1; transform: none; }
+  [data-reveal][data-delay="1"] { transition-delay: .12s; }
+  [data-reveal][data-delay="2"] { transition-delay: .26s; }
+  [data-reveal][data-delay="3"] { transition-delay: .4s; }
+  [data-reveal][data-delay="4"] { transition-delay: .55s; }
+  [data-reveal][data-delay="5"] { transition-delay: .7s; }
+  [data-reveal][data-delay="6"] { transition-delay: .85s; }
+
+  /* ── Button & Interactive States ── */
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+  @keyframes slide-in-left {
+    from { opacity: 0; transform: translateX(-24px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slide-in-right {
+    from { opacity: 0; transform: translateX(24px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes scale-pop {
+    0% { transform: scale(0.95); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+  }
+
+  .btn-loading { animation: pulse-soft 1.5s ease-in-out infinite; }
+  .slide-in-left { animation: slide-in-left 0.4s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .slide-in-right { animation: slide-in-right 0.4s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .scale-pop { animation: scale-pop 0.3s cubic-bezier(0.2, 0.7, 0.2, 1); }
+
+  /* Input focus & active states */
+  input:focus, textarea:focus, select:focus {
+    @apply outline-none ring-2 ring-clay ring-offset-0;
+  }
+
+  /* Smooth transitions for all interactive elements */
+  button, a, input, textarea, select {
+    @apply transition-all duration-200 ease-out;
+  }
+
+  /* Loading skeleton */
+  .skeleton {
+    @apply bg-gradient-to-r from-muted via-muted-foreground/10 to-muted;
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+  }
 }

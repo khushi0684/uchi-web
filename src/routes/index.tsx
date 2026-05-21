@@ -9,7 +9,6 @@ import {
   Globe,
   Leaf,
   Package,
-  Search,
   Sparkles,
   Star,
   Store,
@@ -17,26 +16,34 @@ import {
   Facebook,
   Twitter,
   ChevronUp,
-  User,
-  LogIn,
-  Mail,
 } from "lucide-react";
 
-import { Nav } from "@/components/uchi/Nav";
+import { Nav, LogoMark } from "@/components/uchi/Nav";
 import { ProductCard } from "@/components/uchi/ProductCard";
-import {
-  CartBody,
-  ProductModal,
-  SidePanel,
-  WishBody,
-  type CartItem,
-} from "@/components/uchi/Drawers";
 import { inr, products, type Product } from "@/components/uchi/data";
+import { useStore } from "@/lib/store";
 
 import hero from "@/assets/hero-ceramics.jpg";
 import zen from "@/assets/collection-zen.jpg";
 import earth from "@/assets/collection-earth.jpg";
 import nordic from "@/assets/collection-nordic.jpg";
+
+function useScrollReveal() {
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("revealed");
+            io.unobserve(e.target);
+          }
+        }),
+      { threshold: 0.1, rootMargin: "0px 0px -60px 0px" },
+    );
+    document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -54,17 +61,12 @@ const categories = ["All", "Ceramics", "Lighting", "Seating", "Tables", "Storage
 type Cat = (typeof categories)[number];
 
 function Home() {
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [wish, setWish] = useState<string[]>([]);
-  const [cartOpen, setCartOpen] = useState(false);
-  const [wishOpen, setWishOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [accountOpen, setAccountOpen] = useState(false);
-  const [modalProduct, setModalProduct] = useState<Product | null>(null);
+  const { addToCart, wish, toggleWish, setModalProduct } = useStore();
   const [cat, setCat] = useState<Cat>("All");
   const [sort, setSort] = useState<"featured" | "low" | "high">("featured");
   const [showTop, setShowTop] = useState(false);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  useScrollReveal();
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 600);
@@ -77,30 +79,6 @@ function Home() {
     };
   }, []);
 
-  const addToCart = (p: Product, qty = 1) => {
-    setCart((c) => {
-      const i = c.findIndex((x) => x.product.id === p.id);
-      if (i >= 0) {
-        const copy = [...c];
-        copy[i] = { ...copy[i], qty: copy[i].qty + qty };
-        return copy;
-      }
-      return [...c, { product: p, qty }];
-    });
-    setCartOpen(true);
-    toast.success(`${p.name} added to cart`);
-  };
-  const setQty = (id: string, q: number) =>
-    setCart((c) => c.map((x) => (x.product.id === id ? { ...x, qty: q } : x)));
-  const removeCart = (id: string) => setCart((c) => c.filter((x) => x.product.id !== id));
-  const toggleWish = (id: string) => {
-    setWish((w) => {
-      const exists = w.includes(id);
-      toast(exists ? "Removed from wishlist" : "Saved to wishlist");
-      return exists ? w.filter((x) => x !== id) : [...w, id];
-    });
-  };
-
   const filtered = useMemo(() => {
     let list = cat === "All" ? products : products.filter((p) => p.category === cat);
     if (sort === "low") list = [...list].sort((a, b) => a.price - b.price);
@@ -108,19 +86,9 @@ function Home() {
     return list;
   }, [cat, sort]);
 
-  const wishedProducts = products.filter((p) => wish.includes(p.id));
-  const cartCount = cart.reduce((s, i) => s + i.qty, 0);
-
   return (
     <div id="top" className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <Nav
-        cartCount={cartCount}
-        wishCount={wish.length}
-        onCartClick={() => setCartOpen(true)}
-        onWishClick={() => setWishOpen(true)}
-        onSearchClick={() => setSearchOpen(true)}
-        onAccountClick={() => setAccountOpen(true)}
-      />
+      <Nav />
 
       <Hero mouse={mouse} />
       <Marquee />
@@ -132,8 +100,12 @@ function Home() {
         sort={sort}
         setSort={setSort}
         wish={wish}
-        onAdd={addToCart}
-        onWish={toggleWish}
+        onAdd={(p) => { addToCart(p); toast.success(`${p.name} added to cart`); }}
+        onWish={(id) => {
+          const exists = wish.includes(id);
+          toggleWish(id);
+          toast(exists ? "Removed from wishlist" : "Saved to wishlist");
+        }}
         onOpen={setModalProduct}
       />
       <Collections />
@@ -142,22 +114,6 @@ function Home() {
       <Testimonials />
       <Newsletter />
       <Footer />
-
-      <SidePanel open={cartOpen} title={`Cart (${cartCount})`} onClose={() => setCartOpen(false)}>
-        <CartBody items={cart} setQty={setQty} remove={removeCart} onCheckout={() => { setCartOpen(false); toast.success("Checkout opened — payment coming soon"); }} />
-      </SidePanel>
-      <SidePanel open={wishOpen} title="Wishlist" onClose={() => setWishOpen(false)}>
-        <WishBody items={wishedProducts} remove={(id) => toggleWish(id)} add={(p) => { addToCart(p); setWishOpen(false); }} />
-      </SidePanel>
-      <SidePanel open={searchOpen} title="Search" onClose={() => setSearchOpen(false)}>
-        <SearchBody
-          onSelect={(p) => { setSearchOpen(false); setModalProduct(p); }}
-        />
-      </SidePanel>
-      <SidePanel open={accountOpen} title="Account" onClose={() => setAccountOpen(false)}>
-        <AccountBody onClose={() => setAccountOpen(false)} />
-      </SidePanel>
-      <ProductModal product={modalProduct} onClose={() => setModalProduct(null)} onAdd={addToCart} />
 
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
@@ -311,21 +267,21 @@ function About() {
     <section id="about" className="relative py-28 lg:py-40 bg-cream overflow-hidden">
       <DecorLeaves />
       <div className="relative mx-auto max-w-3xl px-6 text-center">
-        <p className="text-[10px] tracking-[0.35em] uppercase text-clay">About Uchi</p>
+        <p data-reveal="" className="text-[10px] tracking-[0.35em] uppercase text-clay">About Uchi</p>
         <div className="mx-auto mt-3 w-1.5 h-1.5 rounded-full bg-clay" />
-        <h2 className="mt-6 font-serif text-5xl lg:text-6xl leading-tight text-balance">
+        <h2 data-reveal="" data-delay="1" className="mt-6 font-serif text-5xl lg:text-6xl leading-tight text-balance">
           Crafted with Purpose.
           <span className="block italic">Made for Life.</span>
         </h2>
-        <p className="mt-8 text-muted-foreground leading-relaxed text-lg">
+        <p data-reveal="" data-delay="2" className="mt-8 text-muted-foreground leading-relaxed text-lg">
           Uchi is a small homegrown studio celebrating the calm of Japanese minimalism and the
           honesty of timeless craftsmanship. Each piece is thoughtfully drawn, slowly made, and
           finished by hand — designed to bring quiet beauty and purpose into modern living.
         </p>
 
         <div className="mt-16 grid sm:grid-cols-3 gap-10 text-left sm:text-center">
-          {features.map(({ Icon, t, d }) => (
-            <div key={t} className="group">
+          {features.map(({ Icon, t, d }, i) => (
+            <div key={t} data-reveal="" data-delay={String(i + 3)} className="group">
               <div className="mx-auto w-14 h-14 rounded-full border border-clay/30 bg-ivory grid place-items-center text-clay group-hover:bg-clay group-hover:text-ivory transition-colors duration-500">
                 <Icon className="w-6 h-6" />
               </div>
@@ -378,9 +334,9 @@ function Products({
     <section id="products" className="py-28 lg:py-40 bg-background">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <div className="flex flex-col items-center text-center">
-          <p className="text-[10px] tracking-[0.35em] uppercase text-clay">Our Products</p>
+          <p data-reveal="" className="text-[10px] tracking-[0.35em] uppercase text-clay">Our Products</p>
           <span className="mt-3 w-1.5 h-1.5 rounded-full bg-clay" />
-          <h2 className="mt-6 font-serif text-5xl lg:text-6xl">Made for Everyday.</h2>
+          <h2 data-reveal="" data-delay="1" className="mt-6 font-serif text-5xl lg:text-6xl">Made for Everyday.</h2>
         </div>
 
         <div className="mt-12 flex flex-wrap items-center justify-between gap-4">
@@ -424,15 +380,15 @@ function Products({
         </div>
 
         <div className="mt-16 flex justify-center">
-          <a
-            href="#collections"
+          <Link
+            to="/products"
             className="magnetic inline-flex items-center gap-3 rounded-full bg-clay text-ivory pl-7 pr-2 py-2"
           >
             View All Products
             <span className="grid place-items-center w-10 h-10 rounded-full bg-bark">
               <ArrowRight className="w-4 h-4" />
             </span>
-          </a>
+          </Link>
         </div>
       </div>
     </section>
@@ -452,17 +408,19 @@ function Collections() {
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div>
-            <p className="text-[10px] tracking-[0.35em] uppercase text-clay">Curated Collections</p>
-            <h2 className="mt-4 font-serif text-5xl lg:text-6xl text-balance">A room for every quiet moment.</h2>
+            <p data-reveal="" className="text-[10px] tracking-[0.35em] uppercase text-clay">Curated Collections</p>
+            <h2 data-reveal="" data-delay="1" className="mt-4 font-serif text-5xl lg:text-6xl text-balance">A room for every quiet moment.</h2>
           </div>
           <a href="#products" className="text-sm underline underline-offset-4 hover:text-clay">Browse all collections →</a>
         </div>
 
         <div className="mt-14 grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {items.map((c) => (
+          {items.map((c, i) => (
             <a
               key={c.t}
               href="#products"
+              data-reveal=""
+              data-delay={String(i + 1)}
               className={`group lift relative overflow-hidden rounded-3xl ${c.span} aspect-[4/3] block`}
             >
               <img src={c.img} alt={c.t} loading="lazy" className="img-zoom w-full h-full object-cover" />
@@ -496,12 +454,12 @@ function Immersive() {
       />
       <div className="grain absolute inset-0 opacity-20" />
       <div className="relative mx-auto max-w-3xl px-6 text-center">
-        <p className="text-[10px] tracking-[0.4em] uppercase text-clay-soft">Our Philosophy</p>
-        <h2 className="mt-6 font-serif text-5xl lg:text-7xl leading-[1.05] text-balance">
+        <p data-reveal="" className="text-[10px] tracking-[0.4em] uppercase text-clay-soft">Our Philosophy</p>
+        <h2 data-reveal="" data-delay="1" className="mt-6 font-serif text-5xl lg:text-7xl leading-[1.05] text-balance">
           Designed to bring calm, beauty,
           <span className="block italic text-clay-soft">and purpose into modern living.</span>
         </h2>
-        <p className="mt-8 text-ivory/80 leading-relaxed">
+        <p data-reveal="" data-delay="2" className="mt-8 text-ivory/80 leading-relaxed">
           We believe in objects you can grow old with. Pieces that quiet a room. Materials
           that feel honest in the hand. Furniture and ceramics designed in India, finished
           one at a time, and built to be repaired — never replaced.
@@ -525,9 +483,9 @@ function Roadmap() {
     <section className="py-28 lg:py-36 bg-background">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <div className="text-center">
-          <p className="text-[10px] tracking-[0.35em] uppercase text-clay">Our Path Ahead</p>
+          <p data-reveal="" className="text-[10px] tracking-[0.35em] uppercase text-clay">Our Path Ahead</p>
           <span className="mt-3 inline-block w-1.5 h-1.5 rounded-full bg-clay" />
-          <h2 className="mt-6 font-serif text-5xl lg:text-6xl">The Road Ahead</h2>
+          <h2 data-reveal="" data-delay="1" className="mt-6 font-serif text-5xl lg:text-6xl">The Road Ahead</h2>
         </div>
 
         <div className="relative mt-20">
@@ -535,7 +493,7 @@ function Roadmap() {
           <div className="absolute left-0 top-7 h-px bg-clay" style={{ width: "65%" }} />
           <ol className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10">
             {steps.map(({ y, t, d, Icon }, i) => (
-              <li key={y} className="relative text-center group">
+              <li key={y} data-reveal="" data-delay={String(i + 1)} className="relative text-center group">
                 <div className="mx-auto w-14 h-14 rounded-full border border-clay/30 bg-ivory grid place-items-center text-clay relative z-10 group-hover:bg-clay group-hover:text-ivory transition-all duration-500">
                   <Icon className="w-5 h-5" />
                 </div>
@@ -565,15 +523,15 @@ function Testimonials() {
     <section className="py-28 lg:py-36 bg-cream">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <div className="flex items-end justify-between flex-wrap gap-4">
-          <h2 className="font-serif text-5xl lg:text-6xl">Held in homes worldwide.</h2>
+          <h2 data-reveal="" className="font-serif text-5xl lg:text-6xl">Held in homes worldwide.</h2>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Star className="w-4 h-4 fill-clay text-clay" />
             <span className="text-foreground font-medium">4.9</span> · 2,300 reviews
           </div>
         </div>
         <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {items.map((t) => (
-            <figure key={t.n} className="lift bg-ivory rounded-3xl p-7 border border-border/60">
+          {items.map((t, i) => (
+            <figure key={t.n} data-reveal="" data-delay={String(i + 1)} className="lift bg-ivory rounded-3xl p-7 border border-border/60">
               <div className="flex gap-1 text-clay">
                 {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-current" />)}
               </div>
@@ -600,9 +558,9 @@ function Newsletter() {
   return (
     <section className="py-24 bg-background">
       <div className="mx-auto max-w-3xl px-6 text-center">
-        <p className="text-[10px] tracking-[0.35em] uppercase text-clay">The Letter</p>
-        <h2 className="mt-4 font-serif text-4xl lg:text-5xl">Slow notes from the studio.</h2>
-        <p className="mt-4 text-muted-foreground">New pieces, kiln stories, and quiet rituals — once a month.</p>
+        <p data-reveal="" className="text-[10px] tracking-[0.35em] uppercase text-clay">The Letter</p>
+        <h2 data-reveal="" data-delay="1" className="mt-4 font-serif text-4xl lg:text-5xl">Slow notes from the studio.</h2>
+        <p data-reveal="" data-delay="2" className="mt-4 text-muted-foreground">New pieces, kiln stories, and quiet rituals — once a month.</p>
 
         <form
           onSubmit={(e) => { e.preventDefault(); if (email.includes("@")) setDone(true); }}
@@ -669,11 +627,9 @@ function Footer() {
     <footer id="contact" className="bg-cream border-t border-border">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-20 grid grid-cols-2 md:grid-cols-5 gap-10">
         <div className="col-span-2">
-          <Link to="/" className="flex items-center gap-2 font-serif text-3xl italic">
-            <span className="inline-block w-8 h-8 rounded-sm border-2 border-current relative">
-              <span className="absolute inset-x-1 top-1 h-1 bg-current rounded-sm" />
-            </span>
-            uchi
+          <Link to="/" className="flex items-center gap-1 leading-none">
+            <LogoMark className="h-12 w-auto" />
+            <span className="text-[1.6rem] font-light tracking-wide -ml-0.5">chi</span>
           </Link>
           <p className="mt-4 max-w-xs text-sm text-muted-foreground">
             Timeless pieces, thoughtfully made for everyday living.
@@ -704,126 +660,5 @@ function Footer() {
         </div>
       </div>
     </footer>
-  );
-}
-
-/* ---------------- SEARCH ---------------- */
-function SearchBody({ onSelect }: { onSelect: (p: Product) => void }) {
-  const [q, setQ] = useState("");
-  const results = useMemo(() => {
-    const s = q.trim().toLowerCase();
-    if (!s) return products.slice(0, 6);
-    return products.filter(
-      (p) =>
-        p.name.toLowerCase().includes(s) ||
-        p.category.toLowerCase().includes(s) ||
-        p.description.toLowerCase().includes(s),
-    );
-  }, [q]);
-  return (
-    <div className="p-6">
-      <div className="flex items-center gap-3 border border-border rounded-full px-4 py-3 bg-cream">
-        <Search className="w-4 h-4 text-muted-foreground" />
-        <input
-          autoFocus
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Search ceramics, lighting, seating…"
-          className="flex-1 bg-transparent outline-none text-sm"
-        />
-      </div>
-      <p className="mt-4 text-xs uppercase tracking-[0.25em] text-muted-foreground">
-        {results.length} result{results.length === 1 ? "" : "s"}
-      </p>
-      <ul className="mt-3 divide-y">
-        {results.map((p) => (
-          <li key={p.id}>
-            <button
-              onClick={() => onSelect(p)}
-              className="w-full flex gap-4 py-4 text-left hover:bg-cream rounded-lg px-2 transition"
-            >
-              <img src={p.image} alt={p.name} className="w-14 h-16 object-cover rounded-md" />
-              <div className="flex-1 min-w-0">
-                <p className="font-serif text-lg truncate">{p.name}</p>
-                <p className="text-xs uppercase tracking-widest text-muted-foreground">{p.category}</p>
-                <p className="mt-1 text-sm">{inr(p.price)}</p>
-              </div>
-            </button>
-          </li>
-        ))}
-        {!results.length && (
-          <li className="py-10 text-center text-sm text-muted-foreground">No matches. Try another word.</li>
-        )}
-      </ul>
-    </div>
-  );
-}
-
-/* ---------------- ACCOUNT ---------------- */
-function AccountBody({ onClose }: { onClose: () => void }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (!email.includes("@") || password.length < 4) {
-          toast.error("Enter a valid email and password");
-          return;
-        }
-        toast.success(`Welcome back, ${email.split("@")[0]}`);
-        onClose();
-      }}
-      className="p-6 space-y-5"
-    >
-      <div className="w-16 h-16 mx-auto rounded-full bg-clay/15 text-clay grid place-items-center">
-        <User className="w-7 h-7" />
-      </div>
-      <div className="text-center">
-        <h3 className="font-serif text-2xl">Welcome to Uchi</h3>
-        <p className="text-sm text-muted-foreground mt-1">Sign in to track orders and save favourites.</p>
-      </div>
-      <label className="block">
-        <span className="text-xs uppercase tracking-widest text-muted-foreground">Email</span>
-        <div className="mt-1 flex items-center gap-2 border border-border rounded-full px-4 py-3 bg-cream">
-          <Mail className="w-4 h-4 text-muted-foreground" />
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@home.com"
-            className="flex-1 bg-transparent outline-none text-sm"
-          />
-        </div>
-      </label>
-      <label className="block">
-        <span className="text-xs uppercase tracking-widest text-muted-foreground">Password</span>
-        <input
-          type="password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="••••••••"
-          className="mt-1 w-full border border-border rounded-full px-4 py-3 bg-cream outline-none text-sm"
-        />
-      </label>
-      <button
-        type="submit"
-        className="w-full magnetic rounded-full bg-clay text-ivory py-3.5 font-medium inline-flex items-center justify-center gap-2"
-      >
-        <LogIn className="w-4 h-4" /> Sign In
-      </button>
-      <button
-        type="button"
-        onClick={() => toast("Account creation coming soon")}
-        className="w-full rounded-full border border-bark text-bark py-3.5 font-medium hover:bg-bark hover:text-ivory transition"
-      >
-        Create an Account
-      </button>
-      <p className="text-xs text-center text-muted-foreground">
-        By continuing you agree to our terms and privacy policy.
-      </p>
-    </form>
   );
 }
