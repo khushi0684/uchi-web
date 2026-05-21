@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build && cp -a dist/client/. dist/"
+  command = "npm run build"
   publish = "dist/client"
 
 [build.environment]
