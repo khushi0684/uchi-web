@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { Heart, Menu, Search, ShoppingBag, User, X } from "lucide-react";
+import { useStore } from "@/lib/store";
 
 const links = [
   { label: "Home", to: "/" },
@@ -11,14 +12,15 @@ const links = [
   { label: "Contact", to: "/contact" },
 ];
 
-export function Nav({ cartCount, wishCount, onCartClick, onWishClick, onSearchClick, onAccountClick }: {
-  cartCount: number;
-  wishCount: number;
-  onCartClick: () => void;
-  onWishClick: () => void;
-  onSearchClick: () => void;
-  onAccountClick: () => void;
-}) {
+export function Nav() {
+  const { cart, wish, setCartOpen, setWishOpen, setSearchOpen, setAccountOpen } = useStore();
+  const cartCount = cart.reduce((s, i) => s + i.qty, 0);
+  const wishCount = wish.length;
+  const onCartClick = () => setCartOpen(true);
+  const onWishClick = () => setWishOpen(true);
+  const onSearchClick = () => setSearchOpen(true);
+  const onAccountClick = () => setAccountOpen(true);
+
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const location = useLocation();
@@ -119,5 +121,16 @@ function Badge({ n }: { n: number }) {
     <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-clay text-ivory text-[10px] font-semibold grid place-items-center">
       {n}
     </span>
+  );
+}
+
+export function LogoMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" fill="none" className={className} aria-hidden="true">
+      <rect x="2" y="2" width="28" height="28" rx="4" stroke="currentColor" strokeWidth="2" />
+      <rect x="8" y="10" width="16" height="2" rx="1" fill="currentColor" />
+      <rect x="8" y="15" width="16" height="2" rx="1" fill="currentColor" />
+      <rect x="8" y="20" width="10" height="2" rx="1" fill="currentColor" />
+    </svg>
   );
 }
