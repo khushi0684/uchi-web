@@ -7,7 +7,7 @@ const links = [
   { label: "Home", to: "/" },
   { label: "About", to: "/about" },
   { label: "Products", to: "/products" },
-  { label: "Collections", to: "/products" },
+  { label: "Collections", to: "/collections" },
   { label: "Journal", to: "/journal" },
   { label: "Contact", to: "/contact" },
 ];
@@ -44,11 +44,8 @@ export function Nav() {
       }`}
     >
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10 h-20 flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-2 font-serif text-2xl tracking-tight">
-          <span className="inline-block w-7 h-7 rounded-sm border-2 border-current relative">
-            <span className="absolute inset-x-1 top-1 h-1 bg-current rounded-sm" />
-          </span>
-          <span className="italic">uchi</span>
+        <a href="#top" className={`flex items-center rounded-lg px-2 py-1 ${isHome ? "bg-clay" : "bg-clay"}`}>
+          <img src="/logo.jpeg" alt="Uchi" className="h-12 w-auto" />
         </a>
 
         <nav className="hidden lg:flex items-center gap-10 text-sm">
@@ -98,7 +95,7 @@ export function Nav() {
       {open && (
         <div className="fixed inset-0 bg-ivory text-bark z-50 animate-in fade-in duration-300">
           <div className="flex items-center justify-between px-6 h-20 border-b">
-            <span className="font-serif text-2xl italic">uchi</span>
+            <img src="/logo.jpeg" alt="Uchi" className="h-10 w-auto" />
             <button onClick={() => setOpen(false)} className="p-2.5">
               <X className="w-6 h-6" />
             </button>

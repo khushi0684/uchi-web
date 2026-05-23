@@ -18,7 +18,7 @@ import {
   ChevronUp,
 } from "lucide-react";
 
-import { Nav, LogoMark } from "@/components/uchi/Nav";
+import { Nav } from "@/components/uchi/Nav";
 import { ProductCard } from "@/components/uchi/ProductCard";
 import { inr, products, type Product } from "@/components/uchi/data";
 import { useStore } from "@/lib/store";
@@ -156,42 +156,43 @@ function Hero({ mouse }: { mouse: { x: number; y: number } }) {
           <div className="reveal inline-flex items-center gap-2 rounded-full bg-ivory/15 backdrop-blur-md border border-ivory/30 px-3.5 py-1.5 text-xs tracking-[0.25em] uppercase">
             <Sparkles className="w-3.5 h-3.5" /> New · Spring Collection
           </div>
-          <h1 className="reveal reveal-delay-1 font-serif text-[clamp(3rem,7vw,6.5rem)] leading-[0.95] mt-6 text-balance">
-            Timeless Ceramics
-            <span className="block italic font-light">for Everyday Living.</span>
+          <h1 className="reveal reveal-delay-1 font-serif text-[clamp(2.5rem,8vw,7.5rem)] leading-[0.92] mt-6 text-balance font-medium tracking-tight">
+            Timeless
+            <span className="block text-clay-soft">Ceramics &</span>
+            <span className="block italic font-light">Furniture.</span>
           </h1>
-          <p className="reveal reveal-delay-2 mt-6 max-w-md text-ivory/80 text-lg leading-relaxed">
-            Minimal. Functional. Beautifully crafted — quiet objects made to be held, used,
-            and kept for a lifetime.
+          <p className="reveal reveal-delay-2 mt-8 max-w-2xl text-ivory/75 text-lg lg:text-xl leading-relaxed font-light">
+            Handcrafted pieces inspired by Japanese minimalism. Each object is minimal, functional,
+            and beautiful — made to be held, used, and loved for a lifetime.
           </p>
-          <div className="reveal reveal-delay-3 mt-10 flex flex-wrap gap-4">
+          <div className="reveal reveal-delay-3 mt-12 flex flex-wrap gap-4 items-center">
             <a
               href="#products"
-              className="magnetic inline-flex items-center gap-3 rounded-full bg-ivory text-bark pl-6 pr-2 py-2 text-sm font-medium"
+              className="magnetic inline-flex items-center gap-3 rounded-full bg-ivory text-bark pl-7 pr-2 py-3 text-sm font-semibold hover:shadow-lg hover:scale-105 active:scale-95 group"
             >
-              Explore Collection
-              <span className="inline-grid place-items-center w-10 h-10 rounded-full bg-clay text-ivory">
-                <ArrowUpRight className="w-4 h-4" />
+              Explore Now
+              <span className="inline-grid place-items-center w-11 h-11 rounded-full bg-clay text-ivory flex-shrink-0 group-hover:rotate group-hover:animate-spin">
+                <ArrowUpRight className="w-5 h-5" />
               </span>
             </a>
             <a
               href="#story"
-              className="magnetic inline-flex items-center gap-3 rounded-full border border-ivory/40 text-ivory px-6 py-3 text-sm hover:bg-ivory/10"
+              className="magnetic inline-flex items-center gap-3 px-7 py-3 text-sm font-semibold rounded-full border-2 border-ivory text-ivory hover:bg-ivory hover:text-bark hover:shadow-lg transition-all group hover:scale-105"
             >
-              <span className="grid place-items-center w-7 h-7 rounded-full bg-ivory/20">▶</span>
-              Watch Brand Story
+              <span className="inline-block w-2 h-2 rounded-full bg-clay-soft group-hover:pulse"></span>
+              Learn Our Story
             </a>
           </div>
 
-          <dl className="reveal reveal-delay-4 mt-16 grid grid-cols-3 max-w-md gap-6 text-ivory/90">
+          <dl className="reveal reveal-delay-4 mt-16 grid grid-cols-3 max-w-lg gap-8 lg:gap-12">
             {[
-              ["12+", "Years of craft"],
-              ["80K", "Homes worldwide"],
-              ["100%", "Hand finished"],
+              ["12+", "Years Crafting"],
+              ["80K+", "Happy Homes"],
+              ["100%", "Hand Made"],
             ].map(([k, v]) => (
-              <div key={v}>
-                <dt className="font-serif text-3xl">{k}</dt>
-                <dd className="text-[11px] uppercase tracking-[0.2em] mt-1 text-ivory/70">{v}</dd>
+              <div key={v} className="border-l-2 border-clay-soft/40 pl-4">
+                <dt className="font-serif text-4xl lg:text-5xl font-bold text-ivory">{k}</dt>
+                <dd className="text-[10px] uppercase tracking-[0.3em] mt-2 text-ivory/60 font-semibold">{v}</dd>
               </div>
             ))}
           </dl>
@@ -331,34 +332,24 @@ function Products({
   onOpen: (p: Product) => void;
 }) {
   return (
-    <section id="products" className="py-28 lg:py-40 bg-background">
+    <section id="products" className="py-20 lg:py-32 bg-background">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-        <div className="flex flex-col items-center text-center">
-          <p data-reveal="" className="text-[10px] tracking-[0.35em] uppercase text-clay">Our Products</p>
-          <span className="mt-3 w-1.5 h-1.5 rounded-full bg-clay" />
-          <h2 data-reveal="" data-delay="1" className="mt-6 font-serif text-5xl lg:text-6xl">Made for Everyday.</h2>
-        </div>
-
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex flex-wrap gap-2">
-            {categories.map((c) => (
-              <button
-                key={c}
-                onClick={() => setCat(c)}
-                className={`px-4 py-2 rounded-full text-sm border transition-all duration-300 ${
-                  cat === c
-                    ? "bg-bark text-ivory border-bark"
-                    : "border-border text-muted-foreground hover:border-bark hover:text-foreground"
-                }`}
-              >
-                {c}
-              </button>
-            ))}
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between lg:gap-12 mb-16">
+          <div>
+            <p data-reveal="" className="text-[9px] tracking-[0.4em] uppercase font-semibold text-clay">Our Collection</p>
+            <h2 data-reveal="" data-delay="1" className="mt-4 font-serif text-5xl lg:text-6xl xl:text-7xl text-balance leading-tight">
+              Made for
+              <span className="block text-clay">Everyday Living.</span>
+            </h2>
+            <p data-reveal="" data-delay="2" className="mt-4 max-w-lg text-muted-foreground text-base leading-relaxed">
+              Explore our curated selection of handcrafted pieces designed for modern, minimal living.
+            </p>
           </div>
+
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as typeof sort)}
-            className="rounded-full border border-border bg-card px-4 py-2 text-sm"
+            className="rounded-full border-2 border-border bg-card px-6 py-3 text-sm font-medium focus:border-clay focus:ring-0"
           >
             <option value="featured">Featured</option>
             <option value="low">Price: Low to High</option>
@@ -366,27 +357,44 @@ function Products({
           </select>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {items.map((p) => (
-            <ProductCard
-              key={p.id}
-              product={p}
-              wished={wish.includes(p.id)}
-              onAdd={onAdd}
-              onWish={onWish}
-              onOpen={onOpen}
-            />
+        <div className="flex flex-wrap gap-2 mb-12">
+          {categories.map((c) => (
+            <button
+              key={c}
+              onClick={() => setCat(c)}
+              className={`px-5 py-2.5 rounded-full text-sm font-medium border-2 transition-all duration-300 ${
+                cat === c
+                  ? "bg-bark text-ivory border-bark shadow-md"
+                  : "border-border text-muted-foreground hover:border-bark hover:text-foreground hover:bg-sand/30"
+              }`}
+            >
+              {c}
+            </button>
           ))}
         </div>
 
-        <div className="mt-16 flex justify-center">
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {items.map((p, i) => (
+            <div key={p.id} className="stagger-fade-in">
+              <ProductCard
+                product={p}
+                wished={wish.includes(p.id)}
+                onAdd={onAdd}
+                onWish={onWish}
+                onOpen={onOpen}
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-20 flex justify-center">
           <Link
             to="/products"
-            className="magnetic inline-flex items-center gap-3 rounded-full bg-clay text-ivory pl-7 pr-2 py-2"
+            className="magnetic inline-flex items-center gap-2 rounded-full bg-bark text-ivory px-7 py-4 text-sm font-semibold hover:shadow-lg hover:scale-105 active:scale-95"
           >
             View All Products
-            <span className="grid place-items-center w-10 h-10 rounded-full bg-bark">
-              <ArrowRight className="w-4 h-4" />
+            <span className="inline-block ml-1">
+              <ArrowRight className="w-5 h-5" />
             </span>
           </Link>
         </div>
@@ -406,12 +414,21 @@ function Collections() {
   return (
     <section id="collections" className="py-28 lg:py-40 bg-cream">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
           <div>
-            <p data-reveal="" className="text-[10px] tracking-[0.35em] uppercase text-clay">Curated Collections</p>
-            <h2 data-reveal="" data-delay="1" className="mt-4 font-serif text-5xl lg:text-6xl text-balance">A room for every quiet moment.</h2>
+            <p data-reveal="" className="text-[9px] tracking-[0.4em] uppercase font-semibold text-clay">Curated Collections</p>
+            <h2 data-reveal="" data-delay="1" className="mt-4 font-serif text-5xl lg:text-6xl xl:text-7xl text-balance leading-tight">
+              Three Moods,
+              <span className="block text-clay">One Philosophy.</span>
+            </h2>
           </div>
-          <a href="#products" className="text-sm underline underline-offset-4 hover:text-clay">Browse all collections →</a>
+          <Link
+            to="/collections"
+            className="magnetic inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-clay text-clay font-semibold hover:bg-clay hover:text-ivory transition-all"
+          >
+            Explore All
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
 
         <div className="mt-14 grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -421,7 +438,8 @@ function Collections() {
               href="#products"
               data-reveal=""
               data-delay={String(i + 1)}
-              className={`group lift relative overflow-hidden rounded-3xl ${c.span} aspect-[4/3] block`}
+              className={`group lift card-lift relative overflow-hidden rounded-3xl ${c.span} aspect-[4/3] block scale-in`}
+              style={{ animationDelay: `${i * 0.15}s` }}
             >
               <img src={c.img} alt={c.t} loading="lazy" className="img-zoom w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-bark/70 via-bark/10 to-transparent" />
@@ -627,9 +645,8 @@ function Footer() {
     <footer id="contact" className="bg-cream border-t border-border">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-20 grid grid-cols-2 md:grid-cols-5 gap-10">
         <div className="col-span-2">
-          <Link to="/" className="flex items-center gap-1 leading-none">
-            <LogoMark className="h-12 w-auto" />
-            <span className="text-[1.6rem] font-light tracking-wide -ml-0.5">chi</span>
+          <Link to="/" className="flex items-center">
+            <img src="/logo.jpeg" alt="Uchi" className="h-16 w-auto" />
           </Link>
           <p className="mt-4 max-w-xs text-sm text-muted-foreground">
             Timeless pieces, thoughtfully made for everyday living.
