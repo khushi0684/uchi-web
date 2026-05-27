@@ -5,9 +5,9 @@ import { Truck, Clock, Package, Globe } from "lucide-react";
 export const Route = createFileRoute("/shipping")({
   head: () => ({
     meta: [
-      { title: "Shipping & Delivery — Uchi Studio" },
-      { name: "description", content: "Shipping and delivery information for Uchi Studio orders." },
-      { property: "og:title", content: "Shipping & Delivery — Uchi Studio" },
+      { title: "Shipping & Delivery — Uchi" },
+      { name: "description", content: "Shipping and delivery information for Uchi orders." },
+      { property: "og:title", content: "Shipping & Delivery — Uchi" },
       { property: "og:description", content: "How we get your pieces to you safely." },
     ],
   }),
@@ -74,7 +74,7 @@ function ShippingPage() {
 
       <footer className="bg-cream border-t border-border">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-12 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} Uchi Studio. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Uchi. All rights reserved.</p>
           <div className="flex gap-6">
             <Link to="/privacy" className="hover:text-clay transition">Privacy</Link>
             <Link to="/terms" className="hover:text-clay transition">Terms</Link>

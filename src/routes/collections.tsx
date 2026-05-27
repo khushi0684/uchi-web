@@ -12,9 +12,9 @@ import nordic from "@/assets/collection-nordic.jpg";
 export const Route = createFileRoute("/collections")({
   head: () => ({
     meta: [
-      { title: "Collections — Uchi Studio" },
+      { title: "Collections — Uchi" },
       { name: "description", content: "Three curated collections — Zen, Earth, and Nordic — each a distinct mood for everyday living." },
-      { property: "og:title", content: "Collections — Uchi Studio" },
+      { property: "og:title", content: "Collections — Uchi" },
     ],
   }),
   component: CollectionsPage,
@@ -186,7 +186,7 @@ function CollectionsPage() {
 
       <footer className="bg-white border-t border-border/40">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 py-12 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} Uchi Studio. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Uchi. All rights reserved.</p>
           <div className="flex gap-6">
             <Link to="/privacy" className="hover:text-foreground transition">Privacy</Link>
             <Link to="/terms" className="hover:text-foreground transition">Terms</Link>

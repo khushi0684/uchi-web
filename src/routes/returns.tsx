@@ -5,9 +5,9 @@ import { RefreshCcw, ShieldCheck, CalendarDays } from "lucide-react";
 export const Route = createFileRoute("/returns")({
   head: () => ({
     meta: [
-      { title: "Returns & Exchanges — Uchi Studio" },
-      { name: "description", content: "Returns, exchanges, and refund policy for Uchi Studio." },
-      { property: "og:title", content: "Returns & Exchanges — Uchi Studio" },
+      { title: "Returns & Exchanges — Uchi" },
+      { name: "description", content: "Returns, exchanges, and refund policy for Uchi." },
+      { property: "og:title", content: "Returns & Exchanges — Uchi" },
       { property: "og:description", content: "Hassle-free returns within 14 days." },
     ],
   }),
@@ -48,7 +48,7 @@ function ReturnsPage() {
             <div>
               <h2 className="font-serif text-3xl">How to Return</h2>
               <ol className="mt-6 space-y-4 list-decimal list-inside text-muted-foreground leading-relaxed">
-                <li>Email us at hello@uchi.studio with your order number and reason for return.</li>
+                <li>Email us at help@uchicart.com with your order number and reason for return.</li>
                 <li>We will send you a prepaid return label for domestic orders.</li>
                 <li>Pack the item securely in its original packaging.</li>
                 <li>Drop off at the nearest courier location or schedule a pickup.</li>
@@ -68,7 +68,7 @@ function ReturnsPage() {
 
       <footer className="bg-cream border-t border-border">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-12 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} Uchi Studio. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Uchi. All rights reserved.</p>
           <div className="flex gap-6">
             <Link to="/privacy" className="hover:text-clay transition">Privacy</Link>
             <Link to="/terms" className="hover:text-clay transition">Terms</Link>

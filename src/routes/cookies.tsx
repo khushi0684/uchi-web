@@ -4,9 +4,9 @@ import { Nav } from "@/components/uchi/Nav";
 export const Route = createFileRoute("/cookies")({
   head: () => ({
     meta: [
-      { title: "Cookies — Uchi Studio" },
-      { name: "description", content: "Uchi Studio cookies policy." },
-      { property: "og:title", content: "Cookies — Uchi Studio" },
+      { title: "Cookies — Uchi" },
+      { name: "description", content: "Uchi cookies policy." },
+      { property: "og:title", content: "Cookies — Uchi" },
     ],
   }),
   component: CookiesPage,
@@ -60,7 +60,7 @@ function CookiesPage() {
 
       <footer className="bg-cream border-t border-border">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-12 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} Uchi Studio. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Uchi. All rights reserved.</p>
           <div className="flex gap-6">
             <Link to="/privacy" className="hover:text-clay transition">Privacy</Link>
             <Link to="/terms" className="hover:text-clay transition">Terms</Link>

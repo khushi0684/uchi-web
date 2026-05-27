@@ -5,9 +5,9 @@ import { Droplets, Sun, Wind, Box } from "lucide-react";
 export const Route = createFileRoute("/care-guide")({
   head: () => ({
     meta: [
-      { title: "Care Guide — Uchi Studio" },
+      { title: "Care Guide — Uchi" },
       { name: "description", content: "How to care for your Uchi ceramics and furniture." },
-      { property: "og:title", content: "Care Guide — Uchi Studio" },
+      { property: "og:title", content: "Care Guide — Uchi" },
       { property: "og:description", content: "Keep your pieces beautiful for years to come." },
     ],
   }),
@@ -95,7 +95,7 @@ function CareGuidePage() {
 
       <footer className="bg-cream border-t border-border">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-12 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} Uchi Studio. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Uchi. All rights reserved.</p>
           <div className="flex gap-6">
             <Link to="/privacy" className="hover:text-clay transition">Privacy</Link>
             <Link to="/terms" className="hover:text-clay transition">Terms</Link>

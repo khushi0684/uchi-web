@@ -44,8 +44,8 @@ export function Nav() {
       }`}
     >
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10 h-20 flex items-center justify-between">
-        <a href="#top" className={`flex items-center rounded-lg px-2 py-1 ${isHome ? "bg-clay" : "bg-clay"}`}>
-          <img src="/logo.jpeg" alt="Uchi" className="h-12 w-auto" />
+        <a href="#top" className={`flex items-center`}>
+          <img src="/logo-new.png" alt="Uchi" className={`h-12 w-auto transition-all duration-300 ${!isHome || scrolled ? "invert opacity-90" : ""}`} />
         </a>
 
         <nav className="hidden lg:flex items-center gap-10 text-sm">
@@ -95,7 +95,9 @@ export function Nav() {
       {open && (
         <div className="fixed inset-0 bg-ivory text-bark z-50 animate-in fade-in duration-300">
           <div className="flex items-center justify-between px-6 h-20 border-b">
-            <img src="/logo.jpeg" alt="Uchi" className="h-10 w-auto" />
+            <a href="#top" className="flex items-center">
+              <img src="/logo-new.png" alt="Uchi" className="h-10 w-auto invert opacity-90" />
+            </a>
             <button onClick={() => setOpen(false)} className="p-2.5">
               <X className="w-6 h-6" />
             </button>

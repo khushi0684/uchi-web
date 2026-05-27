@@ -642,18 +642,18 @@ function Footer() {
     { I: Twitter, href: "https://twitter.com", label: "Twitter" },
   ];
   return (
-    <footer id="contact" className="bg-cream border-t border-border">
+    <footer id="contact" className="bg-clay text-ivory">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-20 grid grid-cols-2 md:grid-cols-5 gap-10">
         <div className="col-span-2">
-          <Link to="/" className="flex items-center">
-            <img src="/logo.jpeg" alt="Uchi" className="h-16 w-auto" />
+          <Link to="/" className="inline-flex items-center overflow-hidden rounded-xl">
+            <img src="/logo-new.png" alt="Uchi" className="h-16 w-auto block" />
           </Link>
-          <p className="mt-4 max-w-xs text-sm text-muted-foreground">
+          <p className="mt-4 max-w-xs text-sm text-ivory/70">
             Timeless pieces, thoughtfully made for everyday living.
           </p>
           <div className="mt-6 flex gap-3">
             {socials.map(({ I, href, label }) => (
-              <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="w-10 h-10 rounded-full border border-border grid place-items-center hover:bg-clay hover:text-ivory hover:border-clay transition">
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="w-10 h-10 rounded-full border border-ivory/30 text-ivory grid place-items-center hover:bg-ivory hover:text-clay hover:border-ivory transition">
                 <I className="w-4 h-4" />
               </a>
             ))}
@@ -661,18 +661,18 @@ function Footer() {
         </div>
         {cols.map((c) => (
           <div key={c.t}>
-            <h4 className="font-serif text-lg">{c.t}</h4>
-            <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
+            <h4 className="font-serif text-lg text-ivory">{c.t}</h4>
+            <ul className="mt-4 space-y-2.5 text-sm text-ivory/70">
               {c.items.map((i) => (
-                <li key={i.label}><Link to={i.to} className="hover:text-clay transition">{i.label}</Link></li>
+                <li key={i.label}><Link to={i.to} className="hover:text-ivory transition">{i.label}</Link></li>
               ))}
             </ul>
           </div>
         ))}
       </div>
-      <div className="border-t border-border">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-6 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} Uchi Studio. All rights reserved.</p>
+      <div className="border-t border-ivory/20">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-6 flex flex-wrap items-center justify-between gap-3 text-xs text-ivory/50">
+          <p>© {new Date().getFullYear()} Uchi. All rights reserved.</p>
           <p>Designed in India · Finished by hand</p>
         </div>
       </div>

@@ -5,9 +5,9 @@ import { Leaf, Recycle, TreePine, Droplets } from "lucide-react";
 export const Route = createFileRoute("/sustainability")({
   head: () => ({
     meta: [
-      { title: "Sustainability — Uchi Studio" },
-      { name: "description", content: "Uchi Studio's commitment to sustainable practices and ethical craftsmanship." },
-      { property: "og:title", content: "Sustainability — Uchi Studio" },
+      { title: "Sustainability — Uchi" },
+      { name: "description", content: "Uchi's commitment to sustainable practices and ethical craftsmanship." },
+      { property: "og:title", content: "Sustainability — Uchi" },
       { property: "og:description", content: "Designed for a sustainable tomorrow." },
     ],
   }),
@@ -93,7 +93,7 @@ function SustainabilityPage() {
 
       <footer className="bg-cream border-t border-border">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-12 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} Uchi Studio. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Uchi. All rights reserved.</p>
           <div className="flex gap-6">
             <Link to="/privacy" className="hover:text-clay transition">Privacy</Link>
             <Link to="/terms" className="hover:text-clay transition">Terms</Link>

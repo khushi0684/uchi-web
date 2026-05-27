@@ -4,9 +4,9 @@ import { Nav } from "@/components/uchi/Nav";
 export const Route = createFileRoute("/terms")({
   head: () => ({
     meta: [
-      { title: "Terms & Conditions — Uchi Studio" },
-      { name: "description", content: "Uchi Studio terms and conditions." },
-      { property: "og:title", content: "Terms & Conditions — Uchi Studio" },
+      { title: "Terms & Conditions — Uchi" },
+      { name: "description", content: "Uchi terms and conditions." },
+      { property: "og:title", content: "Terms & Conditions — Uchi" },
     ],
   }),
   component: TermsPage,
@@ -29,7 +29,7 @@ function TermsPage() {
           <div>
             <h2 className="font-serif text-2xl">1. Acceptance of Terms</h2>
             <p className="mt-4 text-muted-foreground leading-relaxed">
-              By accessing or using the Uchi Studio website, you agree to be bound by these Terms & Conditions.
+              By accessing or using the Uchi website, you agree to be bound by these Terms & Conditions.
               If you do not agree, please do not use our site.
             </p>
           </div>
@@ -57,7 +57,7 @@ function TermsPage() {
           <div>
             <h2 className="font-serif text-2xl">5. Intellectual Property</h2>
             <p className="mt-4 text-muted-foreground leading-relaxed">
-              All content on this website, including images, text, and designs, is the property of Uchi Studio
+              All content on this website, including images, text, and designs, is the property of Uchi
               and may not be used without our written permission.
             </p>
           </div>
@@ -72,7 +72,7 @@ function TermsPage() {
 
       <footer className="bg-cream border-t border-border">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-12 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} Uchi Studio. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Uchi. All rights reserved.</p>
           <div className="flex gap-6">
             <Link to="/privacy" className="hover:text-clay transition">Privacy</Link>
             <Link to="/terms" className="hover:text-clay transition">Terms</Link>

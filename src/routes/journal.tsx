@@ -15,9 +15,9 @@ import productChair from "@/assets/product-chair.jpg";
 export const Route = createFileRoute("/journal")({
   head: () => ({
     meta: [
-      { title: "Journal — Uchi Studio" },
+      { title: "Journal — Uchi" },
       { name: "description", content: "Stories from the studio, kiln notes, and quiet living inspiration." },
-      { property: "og:title", content: "Journal — Uchi Studio" },
+      { property: "og:title", content: "Journal — Uchi" },
       { property: "og:description", content: "Slow notes from the studio." },
     ],
   }),
@@ -418,7 +418,7 @@ function PullQuote() {
         </blockquote>
         <div data-reveal="" data-delay="1" className="mt-10 flex items-center justify-center gap-4">
           <span className="h-px w-12 bg-clay/50" />
-          <span className="text-sm text-ivory/50 tracking-widest uppercase">Uchi Studio, 2026</span>
+          <span className="text-sm text-ivory/50 tracking-widest uppercase">Uchi, 2026</span>
           <span className="h-px w-12 bg-clay/50" />
         </div>
       </div>
@@ -522,7 +522,7 @@ function JournalFooter() {
   return (
     <footer className="bg-cream border-t border-border">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-10 flex flex-wrap items-center justify-between gap-4 text-xs text-muted-foreground">
-        <p>© {new Date().getFullYear()} Uchi Studio. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Uchi. All rights reserved.</p>
         <div className="flex gap-6">
           <Link to="/" className="hover:text-clay transition">Home</Link>
           <Link to="/products" className="hover:text-clay transition">Products</Link>

@@ -22,9 +22,9 @@ import productVase from "@/assets/product-vase.jpg";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Uchi Studio" },
-      { name: "description", content: "Get in touch with Uchi Studio for inquiries, support, and collaborations." },
-      { property: "og:title", content: "Contact — Uchi Studio" },
+      { title: "Contact — Uchi" },
+      { name: "description", content: "Get in touch with Uchi for inquiries, support, and collaborations." },
+      { property: "og:title", content: "Contact — Uchi" },
       { property: "og:description", content: "We would love to hear from you." },
     ],
   }),
@@ -251,10 +251,10 @@ function ContactMain({ formRef }: { formRef: React.RefObject<HTMLDivElement> }) 
           <p className="text-[10px] tracking-[0.35em] uppercase text-clay">Direct Lines</p>
           <h3 className="font-serif text-2xl">Reach us directly.</h3>
 
-          <a href="mailto:hello@uchi.studio" className="block">
+          <a href="mailto:help@uchicart.com" className="block">
             <ContactCard
               icon={<Mail className="w-5 h-5" />} label="Email"
-              primary="hello@uchi.studio" secondary="For general inquiries and orders" accent="Replies within 24h"
+              primary="help@uchicart.com" secondary="For general inquiries and orders" accent="Replies within 24h"
             />
           </a>
           <a href="tel:+919876543210" className="block">
@@ -450,7 +450,7 @@ function StudioSection({ onBook }: { onBook: () => void }) {
               {[
                 { label: "Address", value: "42 Pottery Lane, Indiranagar, Bangalore 560001" },
                 { label: "Phone", value: "+91 98765 43210" },
-                { label: "Email", value: "studio@uchi.in" },
+                { label: "Email", value: "help@uchicart.com" },
               ].map(({ label, value }) => (
                 <div key={label} className="flex gap-4 text-sm">
                   <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground w-20 pt-0.5 shrink-0">{label}</span>
@@ -510,7 +510,7 @@ function ContactFooter() {
   return (
     <footer className="bg-background border-t border-border">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-10 flex flex-wrap items-center justify-between gap-4 text-xs text-muted-foreground">
-        <p>© {new Date().getFullYear()} Uchi Studio. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Uchi. All rights reserved.</p>
         <div className="flex gap-6">
           <Link to="/" className="hover:text-clay transition">Home</Link>
           <Link to="/journal" className="hover:text-clay transition">Journal</Link>

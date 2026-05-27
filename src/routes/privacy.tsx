@@ -4,9 +4,9 @@ import { Nav } from "@/components/uchi/Nav";
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
-      { title: "Privacy Policy — Uchi Studio" },
-      { name: "description", content: "Uchi Studio privacy policy." },
-      { property: "og:title", content: "Privacy Policy — Uchi Studio" },
+      { title: "Privacy Policy — Uchi" },
+      { name: "description", content: "Uchi privacy policy." },
+      { property: "og:title", content: "Privacy Policy — Uchi" },
     ],
   }),
   component: PrivacyPage,
@@ -57,7 +57,7 @@ function PrivacyPage() {
           <div>
             <h2 className="font-serif text-2xl">5. Contact Us</h2>
             <p className="mt-4 text-muted-foreground leading-relaxed">
-              If you have any questions about this privacy policy, please contact us at hello@uchi.studio.
+              If you have any questions about this privacy policy, please contact us at help@uchicart.com.
             </p>
           </div>
         </div>
@@ -65,7 +65,7 @@ function PrivacyPage() {
 
       <footer className="bg-cream border-t border-border">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-12 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} Uchi Studio. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Uchi. All rights reserved.</p>
           <div className="flex gap-6">
             <Link to="/privacy" className="hover:text-clay transition">Privacy</Link>
             <Link to="/terms" className="hover:text-clay transition">Terms</Link>

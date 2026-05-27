@@ -6,9 +6,9 @@ import { useState } from "react";
 export const Route = createFileRoute("/faqs")({
   head: () => ({
     meta: [
-      { title: "FAQs — Uchi Studio" },
+      { title: "FAQs — Uchi" },
       { name: "description", content: "Frequently asked questions about orders, shipping, returns, and care." },
-      { property: "og:title", content: "FAQs — Uchi Studio" },
+      { property: "og:title", content: "FAQs — Uchi" },
       { property: "og:description", content: "Find answers to common questions." },
     ],
   }),
@@ -84,7 +84,7 @@ function FAQsPage() {
 
       <footer className="bg-cream border-t border-border">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-12 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} Uchi Studio. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Uchi. All rights reserved.</p>
           <div className="flex gap-6">
             <Link to="/privacy" className="hover:text-clay transition">Privacy</Link>
             <Link to="/terms" className="hover:text-clay transition">Terms</Link>

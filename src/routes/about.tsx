@@ -6,9 +6,9 @@ import heroImg from "@/assets/hero-ceramics.jpg";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — Uchi Studio" },
-      { name: "description", content: "Learn about Uchi Studio's philosophy of timeless design and thoughtful craftsmanship." },
-      { property: "og:title", content: "About — Uchi Studio" },
+      { title: "About — Uchi" },
+      { name: "description", content: "Learn about Uchi's philosophy of timeless design and thoughtful craftsmanship." },
+      { property: "og:title", content: "About — Uchi" },
       { property: "og:description", content: "Crafted with purpose. Made for life." },
     ],
   }),
@@ -95,7 +95,7 @@ function Footer() {
   return (
     <footer className="bg-cream border-t border-border">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-12 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
-        <p>© {new Date().getFullYear()} Uchi Studio. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Uchi. All rights reserved.</p>
         <div className="flex gap-6">
           <Link to="/privacy" className="hover:text-clay transition">Privacy</Link>
           <Link to="/terms" className="hover:text-clay transition">Terms</Link>
