@@ -6,6 +6,8 @@ import table from "@/assets/product-table.jpg";
 import chair from "@/assets/product-chair.jpg";
 import floorlamp from "@/assets/product-floorlamp.jpg";
 import sofa from "@/assets/product-sofa.jpg";
+import metalSideTable from "@/assets/product-metal-side-table.jpg";
+import bedsideTable from "@/assets/product-bedside-table.jpg";
 
 export type Review = {
   id: string;
@@ -178,6 +180,50 @@ export const products: Product[] = [
       { label: "Bulb", value: "E27, 8W LED recommended" },
     ],
     stock: 7,
+  },
+  {
+    id: "bedside-table",
+    name: "Uchi Modern Bedside Table with Open Shelf & Drawer",
+    price: 5000,
+    compareAtPrice: 6999,
+    category: "Storage",
+    rating: 4.9,
+    reviewCount: 0,
+    image: bedsideTable,
+    gallery: [bedsideTable],
+    description:
+      "Bring clean modern aesthetics to your space with this elegant bedside table finished in a soft off-white tone. Designed with an open storage shelf and concealed drawer space.",
+    longDescription:
+      "Bring clean modern aesthetics to your space with this elegant bedside table finished in a soft off-white tone. Designed with an open storage shelf and concealed drawer space, it offers the perfect balance of style and functionality for everyday essentials. A versatile nightstand that fits beautifully in both bedrooms and living rooms.",
+    specs: [
+      { label: "Material", value: "Engineering Wood" },
+      { label: "Dimensions", value: "40 × 40 × 50 cm" },
+      { label: "Finish", value: "Laminated, Food Safe" },
+      { label: "Origin", value: "Made in Odisha, India" },
+    ],
+    stock: 10,
+  },
+  {
+    id: "metal-side-table",
+    name: "Metal Side Table with Shelf — 22 inch",
+    price: 4500,
+    compareAtPrice: 6500,
+    category: "Tables",
+    rating: 4.9,
+    reviewCount: 0,
+    image: metalSideTable,
+    gallery: [metalSideTable],
+    description:
+      "A sleek modern metal side table with an open geometric design, blending minimalist aesthetics with practical storage for books and décor.",
+    longDescription:
+      "A sleek modern metal side table with an open geometric design, blending minimalist aesthetics with practical storage for books and décor. The open shelves keep your favourite reads and objects within easy reach, while the powder-coated finish adds a durable, matte elegance that fits any interior.",
+    specs: [
+      { label: "Material", value: "Heavy Metal" },
+      { label: "Dimensions", value: "54.5 × 35 × 35 cm" },
+      { label: "Finish", value: "Powder Coated, Food Safe" },
+      { label: "Origin", value: "Made in Odisha, India" },
+    ],
+    stock: 10,
   },
   {
     id: "sofa",

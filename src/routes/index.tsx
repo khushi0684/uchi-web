@@ -532,10 +532,10 @@ function Roadmap() {
 /* ---------------- TESTIMONIALS ---------------- */
 function Testimonials() {
   const items = [
-    { n: "Aiko M.", c: "Tokyo", q: "The bowl arrived wrapped in linen. It feels like it has always been on my shelf." },
+    { n: "Aiko M.", c: "Delhi", q: "The bowl arrived wrapped in linen. It feels like it has always been on my shelf." },
     { n: "Rohan K.", c: "Mumbai", q: "I bought the dining table eight months ago. It only gets more beautiful." },
-    { n: "Emilia S.", c: "Copenhagen", q: "Quiet, intentional, perfectly considered. Everything I want in a home object." },
-    { n: "Yuki T.", c: "Kyoto", q: "The pendant softens the whole room. Worth every rupee, twice over." },
+    { n: "Emilia S.", c: "Bengaluru", q: "Quiet, intentional, perfectly considered. Everything I want in a home object." },
+    { n: "Yuki T.", c: "Jaipur", q: "The pendant softens the whole room. Worth every rupee, twice over." },
   ];
   return (
     <section className="py-28 lg:py-36 bg-cream">
@@ -637,7 +637,7 @@ function Footer() {
     },
   ];
   const socials = [
-    { I: Instagram, href: "https://instagram.com", label: "Instagram" },
+    { I: Instagram, href: "https://www.instagram.com/uchi.ca", label: "Instagram" },
     { I: Facebook, href: "https://facebook.com", label: "Facebook" },
     { I: Twitter, href: "https://twitter.com", label: "Twitter" },
   ];
