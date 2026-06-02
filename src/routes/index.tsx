@@ -637,7 +637,7 @@ function Footer() {
     },
   ];
   const socials = [
-    { I: Instagram, href: "https://www.instagram.com/uchi.ca", label: "Instagram" },
+    { I: Instagram, href: "https://www.instagram.com/uchi.cart/", label: "Instagram" },
     { I: Facebook, href: "https://facebook.com", label: "Facebook" },
     { I: Twitter, href: "https://twitter.com", label: "Twitter" },
   ];

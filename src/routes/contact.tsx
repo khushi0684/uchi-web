@@ -263,7 +263,7 @@ function ContactMain({ formRef }: { formRef: React.RefObject<HTMLDivElement> }) 
               primary="+91 98765 43210" secondary="Mon–Fri · 10am – 6pm IST" accent="Call or WhatsApp"
             />
           </a>
-          <a href="https://www.instagram.com/uchi.ca" target="_blank" rel="noopener noreferrer" className="block">
+          <a href="https://www.instagram.com/uchi.cart/" target="_blank" rel="noopener noreferrer" className="block">
             <ContactCard
               icon={<Instagram className="w-5 h-5" />} label="Instagram"
               primary="@uchi.ca" secondary="Behind-the-scenes & new arrivals" accent="DMs open"
